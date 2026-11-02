@@ -1,0 +1,15 @@
+S01;Ane Etxeberria;ane.etxeberria@mail.com;
+S02;Jon Agirre;jon.agirre@mail.com;L003
+S03;Laura Martínez;laura.martinez@mail.com;
+S04;Mikel Iturriaga;mikel.iturriaga@mail.com;
+S05;Sara López;sara.lopez@mail.com;L010
+S06;Iker Goikoetxea;iker.goikoetxea@mail.com;
+S07;Nerea Ruiz;nerea.ruiz@mail.com;
+S08;Unai Zubizarreta;unai.zubizarreta@mail.com;
+S09;Maite Fernández;maite.fernandez@mail.com;L021
+S10;Asier Larrañaga;asier.larranaga@mail.com;
+S11;Leire Gómez;leire.gomez@mail.com;
+S12;Ibai Arrieta;ibai.arrieta@mail.com;
+S13;Paula Sánchez;paula.sanchez@mail.com;
+S14;Oier Mendizabal;oier.mendizabal@mail.com;
+S15;Irati Olano;irati.olano@mail.com;
