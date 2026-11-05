@@ -58,7 +58,13 @@ def main():
     while True:
         mostrar_menu()
         opcion = input("Elige una opción: ")
-        print("Has elegido la opción", opcion)
+        if opcion == "8":
+            print("Hasta luego")
+            break
+        elif opcion in ["1", "2", "3", "4", "5", "6", "7"]:
+            print("Opción todavía no disponible")
+        else:
+            print("Opción no válida, elige un número del 1 al 8")
 
 
 main()
