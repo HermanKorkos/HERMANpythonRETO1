@@ -36,11 +36,35 @@ def cargar_socios():
     return socios
 
 
+def mostrar_menu():
+    print()
+    print("--- BIBLIOTECA ---")
+    print("1. Ver todos los libros")
+    print("2. Ver libros disponibles")
+    print("3. Buscar libro por título")
+    print("4. Prestar libro")
+    print("5. Devolver libro")
+    print("6. Socios con libro")
+    print("7. Añadir socio o libro")
+    print("8. Salir")
+
+
 def main():
     print("Sistema de gestión de biblioteca")
     libros = cargar_libros()
     socios = cargar_socios()
     print("Se han cargado", len(libros), "libros y", len(socios), "socios")
+
+    while True:
+        mostrar_menu()
+        opcion = input("Elige una opción: ")
+        if opcion == "8":
+            print("Hasta luego")
+            break
+        elif opcion in ["1", "2", "3", "4", "5", "6", "7"]:
+            print("Opción todavía no disponible")
+        else:
+            print("Opción no válida, elige un número del 1 al 8")
 
 
 main()
