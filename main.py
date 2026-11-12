@@ -1,5 +1,6 @@
 from modelo.libro import Libro
 from modelo.socio import Socio
+from errores.prestamo_error import PrestamoError
 
 
 def cargar_libros():
@@ -101,20 +102,22 @@ def buscar_socio(socios, codigo):
 def prestar_libro(libros, socios):
     codigo_libro = input("Código del libro: ").strip().upper()
     codigo_socio = input("Código del socio: ").strip().upper()
-    libro = buscar_libro(libros, codigo_libro)
-    socio = buscar_socio(socios, codigo_socio)
-    if libro is None:
-        print("No existe el libro", codigo_libro)
-    elif socio is None:
-        print("No existe el socio", codigo_socio)
-    elif socio.tiene_libro():
-        print("El socio ya tiene el libro", socio.codigo_libro)
-    elif not libro.esta_libre():
-        print("El libro lo tiene el socio", libro.codigo_socio)
-    else:
+    try:
+        libro = buscar_libro(libros, codigo_libro)
+        socio = buscar_socio(socios, codigo_socio)
+        if libro is None:
+            raise PrestamoError("No existe ese libro", codigo_libro)
+        if socio is None:
+            raise PrestamoError("No existe ese socio", codigo_socio)
+        if socio.tiene_libro():
+            raise PrestamoError("El socio ya tiene el libro " + socio.codigo_libro, codigo_socio)
+        if not libro.esta_libre():
+            raise PrestamoError("El libro lo tiene el socio " + libro.codigo_socio, codigo_libro)
         libro.prestar(codigo_socio)
         socio.coger_libro(codigo_libro)
         print("Libro", libro.titulo, "prestado a", socio.nombre)
+    except PrestamoError as e:
+        print("Error con " + e.codigo + ": " + str(e))
 
 
 def mostrar_menu():
