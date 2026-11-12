@@ -37,6 +37,25 @@ def cargar_socios():
     return socios
 
 
+def guardar_datos(libros, socios):
+    fichero = open("libros.txt", "w", encoding="utf-8")
+    for libro in libros:
+        codigo_socio = libro.codigo_socio
+        if codigo_socio is None:
+            codigo_socio = ""
+        fichero.write(f"{libro.codigo};{libro.titulo};{libro.autor};{libro.anio};{libro.categoria};{codigo_socio}\n")
+    fichero.close()
+
+    fichero = open("socios.txt", "w", encoding="utf-8")
+    for socio in socios:
+        codigo_libro = socio.codigo_libro
+        if codigo_libro is None:
+            codigo_libro = ""
+        fichero.write(f"{socio.codigo};{socio.nombre};{socio.email};{codigo_libro}\n")
+    fichero.close()
+    print("Datos guardados en libros.txt y socios.txt")
+
+
 def recortar(texto, largo):
     if len(texto) > largo:
         return texto[:largo - 3] + "..."
@@ -221,6 +240,7 @@ def main():
         mostrar_menu()
         opcion = input("Elige una opción: ")
         if opcion == "8":
+            guardar_datos(libros, socios)
             print("Hasta luego")
             break
         elif opcion == "1":
