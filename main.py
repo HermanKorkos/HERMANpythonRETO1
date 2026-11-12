@@ -146,6 +146,7 @@ def prestar_libro(libros, socios):
         escribir_log("PRESTAMO", f"{libro.codigo} {libro.titulo} -> {socio.codigo} {socio.nombre}")
     except PrestamoError as e:
         print("Error con " + e.codigo + ": " + str(e))
+        escribir_log("PRESTAMO FALLIDO", f"{e.codigo} {e}")
 
 
 def devolver_libro(libros, socios):
@@ -193,6 +194,7 @@ def anadir_socio(socios):
     codigo = f"S{numero + 1:02d}"
     socios.append(Socio(codigo, nombre, email))
     print("Socio", nombre, "añadido con el código", codigo)
+    escribir_log("ALTA SOCIO", f"{codigo} {nombre}")
 
 
 def anadir_libro(libros):
@@ -213,6 +215,7 @@ def anadir_libro(libros):
     codigo = f"L{numero + 1:03d}"
     libros.append(Libro(codigo, titulo, autor, int(anio), categoria))
     print("Libro", titulo, "añadido con el código", codigo)
+    escribir_log("ALTA LIBRO", f"{codigo} {titulo}")
 
 
 def anadir(libros, socios):
