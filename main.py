@@ -53,6 +53,14 @@ def listar_todos(libros):
     mostrar_libros(libros)
 
 
+def listar_disponibles(libros):
+    disponibles = []
+    for libro in libros:
+        if libro.esta_libre():
+            disponibles.append(libro)
+    mostrar_libros(disponibles)
+
+
 def mostrar_menu():
     print()
     print("--- BIBLIOTECA ---")
@@ -80,7 +88,9 @@ def main():
             break
         elif opcion == "1":
             listar_todos(libros)
-        elif opcion in ["2", "3", "4", "5", "6", "7"]:
+        elif opcion == "2":
+            listar_disponibles(libros)
+        elif opcion in ["3", "4", "5", "6", "7"]:
             print("Opción todavía no disponible")
         else:
             print("Opción no válida, elige un número del 1 al 8")
