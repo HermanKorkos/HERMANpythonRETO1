@@ -1,5 +1,6 @@
 from modelo.libro import Libro
 from modelo.socio import Socio
+from errores.prestamo_error import PrestamoError
 
 
 def cargar_libros():
@@ -84,6 +85,72 @@ def buscar_por_titulo(libros):
         mostrar_libros(encontrados)
 
 
+def buscar_libro(libros, codigo):
+    for libro in libros:
+        if libro.codigo == codigo:
+            return libro
+    return None
+
+
+def buscar_socio(socios, codigo):
+    for socio in socios:
+        if socio.codigo == codigo:
+            return socio
+    return None
+
+
+def prestar_libro(libros, socios):
+    codigo_libro = input("Código del libro: ").strip().upper()
+    codigo_socio = input("Código del socio: ").strip().upper()
+    try:
+        libro = buscar_libro(libros, codigo_libro)
+        socio = buscar_socio(socios, codigo_socio)
+        if libro is None:
+            raise PrestamoError("No existe ese libro", codigo_libro)
+        if socio is None:
+            raise PrestamoError("No existe ese socio", codigo_socio)
+        if socio.tiene_libro():
+            raise PrestamoError("El socio ya tiene el libro " + socio.codigo_libro, codigo_socio)
+        if not libro.esta_libre():
+            raise PrestamoError("El libro lo tiene el socio " + libro.codigo_socio, codigo_libro)
+        libro.prestar(codigo_socio)
+        socio.coger_libro(codigo_libro)
+        print("Libro", libro.titulo, "prestado a", socio.nombre)
+    except PrestamoError as e:
+        print("Error con " + e.codigo + ": " + str(e))
+
+
+def devolver_libro(libros, socios):
+    codigo_socio = input("Código del socio: ").strip().upper()
+    socio = buscar_socio(socios, codigo_socio)
+    if socio is None:
+        print("No existe el socio", codigo_socio)
+        return
+    if not socio.tiene_libro():
+        print(socio.nombre, "no tiene ningún libro")
+        return
+    libro = buscar_libro(libros, socio.codigo_libro)
+    libro.devolver()
+    socio.dejar_libro()
+    print(socio.nombre, "ha devuelto", libro.titulo)
+
+
+def socios_con_libro(libros, socios):
+    print()
+    print(f"{'SOCIO':<7}{'NOMBRE':<22}{'LIBRO':<7}TÍTULO")
+    print("-" * 70)
+    contador = 0
+    for socio in socios:
+        if socio.tiene_libro():
+            libro = buscar_libro(libros, socio.codigo_libro)
+            print(f"{socio.codigo:<7}{socio.nombre:<22}{libro.codigo:<7}{libro.titulo}")
+            contador = contador + 1
+    if contador == 0:
+        print("Ahora mismo ningún socio tiene libros")
+    else:
+        print("Total:", contador, "socios con libro")
+
+
 def mostrar_menu():
     print()
     print("--- BIBLIOTECA ---")
@@ -115,7 +182,13 @@ def main():
             listar_disponibles(libros)
         elif opcion == "3":
             buscar_por_titulo(libros)
-        elif opcion in ["4", "5", "6", "7"]:
+        elif opcion == "4":
+            prestar_libro(libros, socios)
+        elif opcion == "5":
+            devolver_libro(libros, socios)
+        elif opcion == "6":
+            socios_con_libro(libros, socios)
+        elif opcion == "7":
             print("Opción todavía no disponible")
         else:
             print("Opción no válida, elige un número del 1 al 8")
