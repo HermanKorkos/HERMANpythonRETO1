@@ -120,6 +120,21 @@ def prestar_libro(libros, socios):
         print("Error con " + e.codigo + ": " + str(e))
 
 
+def devolver_libro(libros, socios):
+    codigo_socio = input("Código del socio: ").strip().upper()
+    socio = buscar_socio(socios, codigo_socio)
+    if socio is None:
+        print("No existe el socio", codigo_socio)
+        return
+    if not socio.tiene_libro():
+        print(socio.nombre, "no tiene ningún libro")
+        return
+    libro = buscar_libro(libros, socio.codigo_libro)
+    libro.devolver()
+    socio.dejar_libro()
+    print(socio.nombre, "ha devuelto", libro.titulo)
+
+
 def mostrar_menu():
     print()
     print("--- BIBLIOTECA ---")
@@ -153,7 +168,9 @@ def main():
             buscar_por_titulo(libros)
         elif opcion == "4":
             prestar_libro(libros, socios)
-        elif opcion in ["5", "6", "7"]:
+        elif opcion == "5":
+            devolver_libro(libros, socios)
+        elif opcion in ["6", "7"]:
             print("Opción todavía no disponible")
         else:
             print("Opción no válida, elige un número del 1 al 8")
