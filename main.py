@@ -36,6 +36,12 @@ def cargar_socios():
     return socios
 
 
+def recortar(texto, largo):
+    if len(texto) > largo:
+        return texto[:largo - 3] + "..."
+    return texto
+
+
 def mostrar_libros(lista):
     print()
     print(f"{'CÓDIGO':<7}{'TÍTULO':<38}{'AUTOR':<26}{'AÑO':>5}  {'CATEGORÍA':<17}ESTADO")
@@ -45,7 +51,9 @@ def mostrar_libros(lista):
             estado = "Libre"
         else:
             estado = "Prestado a " + libro.codigo_socio
-        print(f"{libro.codigo:<7}{libro.titulo:<38}{libro.autor:<26}{libro.anio:>5}  {libro.categoria:<17}{estado}")
+        titulo = recortar(libro.titulo, 36)
+        autor = recortar(libro.autor, 24)
+        print(f"{libro.codigo:<7}{titulo:<38}{autor:<26}{libro.anio:>5}  {libro.categoria:<17}{estado}")
     print("Total:", len(lista), "libros")
 
 
