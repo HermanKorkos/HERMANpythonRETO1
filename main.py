@@ -174,6 +174,9 @@ def anadir_libro(libros):
     if titulo == "" or autor == "":
         print("El título y el autor son obligatorios")
         return
+    if not anio.isdigit():
+        print("El año tiene que ser un número")
+        return
     numero = 0
     for libro in libros:
         if int(libro.codigo[1:]) > numero:
