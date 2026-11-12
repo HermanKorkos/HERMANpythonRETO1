@@ -36,6 +36,39 @@ def cargar_socios():
     return socios
 
 
+def recortar(texto, largo):
+    if len(texto) > largo:
+        return texto[:largo - 3] + "..."
+    return texto
+
+
+def mostrar_libros(lista):
+    print()
+    print(f"{'CÓDIGO':<7}{'TÍTULO':<38}{'AUTOR':<26}{'AÑO':>5}  {'CATEGORÍA':<17}ESTADO")
+    print("-" * 106)
+    for libro in lista:
+        if libro.esta_libre():
+            estado = "Libre"
+        else:
+            estado = "Prestado a " + libro.codigo_socio
+        titulo = recortar(libro.titulo, 36)
+        autor = recortar(libro.autor, 24)
+        print(f"{libro.codigo:<7}{titulo:<38}{autor:<26}{libro.anio:>5}  {libro.categoria:<17}{estado}")
+    print("Total:", len(lista), "libros")
+
+
+def listar_todos(libros):
+    mostrar_libros(libros)
+
+
+def listar_disponibles(libros):
+    disponibles = []
+    for libro in libros:
+        if libro.esta_libre():
+            disponibles.append(libro)
+    mostrar_libros(disponibles)
+
+
 def mostrar_menu():
     print()
     print("--- BIBLIOTECA ---")
@@ -61,7 +94,11 @@ def main():
         if opcion == "8":
             print("Hasta luego")
             break
-        elif opcion in ["1", "2", "3", "4", "5", "6", "7"]:
+        elif opcion == "1":
+            listar_todos(libros)
+        elif opcion == "2":
+            listar_disponibles(libros)
+        elif opcion in ["3", "4", "5", "6", "7"]:
             print("Opción todavía no disponible")
         else:
             print("Opción no válida, elige un número del 1 al 8")
