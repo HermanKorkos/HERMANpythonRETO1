@@ -71,6 +71,9 @@ def listar_disponibles(libros):
 
 def buscar_por_titulo(libros):
     termino = input("Escribe una palabra del título: ").strip().lower()
+    if termino == "":
+        print("No has escrito nada")
+        return
     encontrados = []
     for libro in libros:
         if termino in libro.titulo.lower():
