@@ -84,6 +84,39 @@ def buscar_por_titulo(libros):
         mostrar_libros(encontrados)
 
 
+def buscar_libro(libros, codigo):
+    for libro in libros:
+        if libro.codigo == codigo:
+            return libro
+    return None
+
+
+def buscar_socio(socios, codigo):
+    for socio in socios:
+        if socio.codigo == codigo:
+            return socio
+    return None
+
+
+def prestar_libro(libros, socios):
+    codigo_libro = input("Código del libro: ").strip().upper()
+    codigo_socio = input("Código del socio: ").strip().upper()
+    libro = buscar_libro(libros, codigo_libro)
+    socio = buscar_socio(socios, codigo_socio)
+    if libro is None:
+        print("No existe el libro", codigo_libro)
+    elif socio is None:
+        print("No existe el socio", codigo_socio)
+    elif socio.tiene_libro():
+        print("El socio ya tiene el libro", socio.codigo_libro)
+    elif not libro.esta_libre():
+        print("El libro lo tiene el socio", libro.codigo_socio)
+    else:
+        libro.prestar(codigo_socio)
+        socio.coger_libro(codigo_libro)
+        print("Libro", libro.titulo, "prestado a", socio.nombre)
+
+
 def mostrar_menu():
     print()
     print("--- BIBLIOTECA ---")
@@ -115,7 +148,9 @@ def main():
             listar_disponibles(libros)
         elif opcion == "3":
             buscar_por_titulo(libros)
-        elif opcion in ["4", "5", "6", "7"]:
+        elif opcion == "4":
+            prestar_libro(libros, socios)
+        elif opcion in ["5", "6", "7"]:
             print("Opción todavía no disponible")
         else:
             print("Opción no válida, elige un número del 1 al 8")
