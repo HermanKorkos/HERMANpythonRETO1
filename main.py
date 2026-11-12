@@ -151,6 +151,53 @@ def socios_con_libro(libros, socios):
         print("Total:", contador, "socios con libro")
 
 
+def anadir_socio(socios):
+    nombre = input("Nombre: ").strip()
+    email = input("Email: ").strip()
+    if nombre == "" or email == "":
+        print("El nombre y el email son obligatorios")
+        return
+    numero = 0
+    for socio in socios:
+        if int(socio.codigo[1:]) > numero:
+            numero = int(socio.codigo[1:])
+    codigo = f"S{numero + 1:02d}"
+    socios.append(Socio(codigo, nombre, email))
+    print("Socio", nombre, "añadido con el código", codigo)
+
+
+def anadir_libro(libros):
+    titulo = input("Título: ").strip()
+    autor = input("Autor: ").strip()
+    anio = input("Año: ").strip()
+    categoria = input("Categoría: ").strip()
+    if titulo == "" or autor == "":
+        print("El título y el autor son obligatorios")
+        return
+    if not anio.isdigit():
+        print("El año tiene que ser un número")
+        return
+    numero = 0
+    for libro in libros:
+        if int(libro.codigo[1:]) > numero:
+            numero = int(libro.codigo[1:])
+    codigo = f"L{numero + 1:03d}"
+    libros.append(Libro(codigo, titulo, autor, int(anio), categoria))
+    print("Libro", titulo, "añadido con el código", codigo)
+
+
+def anadir(libros, socios):
+    print("1. Añadir socio")
+    print("2. Añadir libro")
+    tipo = input("¿Qué quieres añadir? ")
+    if tipo == "1":
+        anadir_socio(socios)
+    elif tipo == "2":
+        anadir_libro(libros)
+    else:
+        print("Opción no válida")
+
+
 def mostrar_menu():
     print()
     print("--- BIBLIOTECA ---")
@@ -189,7 +236,7 @@ def main():
         elif opcion == "6":
             socios_con_libro(libros, socios)
         elif opcion == "7":
-            print("Opción todavía no disponible")
+            anadir(libros, socios)
         else:
             print("Opción no válida, elige un número del 1 al 8")
 
