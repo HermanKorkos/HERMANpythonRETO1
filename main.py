@@ -69,6 +69,21 @@ def listar_disponibles(libros):
     mostrar_libros(disponibles)
 
 
+def buscar_por_titulo(libros):
+    termino = input("Escribe una palabra del título: ").strip().lower()
+    if termino == "":
+        print("No has escrito nada")
+        return
+    encontrados = []
+    for libro in libros:
+        if termino in libro.titulo.lower():
+            encontrados.append(libro)
+    if len(encontrados) == 0:
+        print("No existe ningún libro con", termino, "en el título")
+    else:
+        mostrar_libros(encontrados)
+
+
 def mostrar_menu():
     print()
     print("--- BIBLIOTECA ---")
@@ -98,7 +113,9 @@ def main():
             listar_todos(libros)
         elif opcion == "2":
             listar_disponibles(libros)
-        elif opcion in ["3", "4", "5", "6", "7"]:
+        elif opcion == "3":
+            buscar_por_titulo(libros)
+        elif opcion in ["4", "5", "6", "7"]:
             print("Opción todavía no disponible")
         else:
             print("Opción no válida, elige un número del 1 al 8")
