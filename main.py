@@ -135,6 +135,22 @@ def devolver_libro(libros, socios):
     print(socio.nombre, "ha devuelto", libro.titulo)
 
 
+def socios_con_libro(libros, socios):
+    print()
+    print(f"{'SOCIO':<7}{'NOMBRE':<22}{'LIBRO':<7}TÍTULO")
+    print("-" * 70)
+    contador = 0
+    for socio in socios:
+        if socio.tiene_libro():
+            libro = buscar_libro(libros, socio.codigo_libro)
+            print(f"{socio.codigo:<7}{socio.nombre:<22}{libro.codigo:<7}{libro.titulo}")
+            contador = contador + 1
+    if contador == 0:
+        print("Ahora mismo ningún socio tiene libros")
+    else:
+        print("Total:", contador, "socios con libro")
+
+
 def mostrar_menu():
     print()
     print("--- BIBLIOTECA ---")
@@ -170,7 +186,9 @@ def main():
             prestar_libro(libros, socios)
         elif opcion == "5":
             devolver_libro(libros, socios)
-        elif opcion in ["6", "7"]:
+        elif opcion == "6":
+            socios_con_libro(libros, socios)
+        elif opcion == "7":
             print("Opción todavía no disponible")
         else:
             print("Opción no válida, elige un número del 1 al 8")
