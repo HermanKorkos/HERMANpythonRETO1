@@ -1,6 +1,14 @@
 from modelo.libro import Libro
 from modelo.socio import Socio
 from errores.prestamo_error import PrestamoError
+from datetime import datetime
+
+
+def escribir_log(evento, detalles):
+    fecha = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    fichero = open("log.txt", "a", encoding="utf-8")
+    fichero.write(f"[{fecha}][{evento}][{detalles}]\n")
+    fichero.close()
 
 
 def cargar_libros():
@@ -135,8 +143,10 @@ def prestar_libro(libros, socios):
         libro.prestar(codigo_socio)
         socio.coger_libro(codigo_libro)
         print("Libro", libro.titulo, "prestado a", socio.nombre)
+        escribir_log("PRESTAMO", f"{libro.codigo} {libro.titulo} -> {socio.codigo} {socio.nombre}")
     except PrestamoError as e:
         print("Error con " + e.codigo + ": " + str(e))
+        escribir_log("PRESTAMO FALLIDO", f"{e.codigo} {e}")
 
 
 def devolver_libro(libros, socios):
@@ -152,6 +162,7 @@ def devolver_libro(libros, socios):
     libro.devolver()
     socio.dejar_libro()
     print(socio.nombre, "ha devuelto", libro.titulo)
+    escribir_log("DEVOLUCION", f"{socio.codigo} {socio.nombre} devuelve {libro.codigo} {libro.titulo}")
 
 
 def socios_con_libro(libros, socios):
@@ -183,6 +194,7 @@ def anadir_socio(socios):
     codigo = f"S{numero + 1:02d}"
     socios.append(Socio(codigo, nombre, email))
     print("Socio", nombre, "añadido con el código", codigo)
+    escribir_log("ALTA SOCIO", f"{codigo} {nombre}")
 
 
 def anadir_libro(libros):
@@ -203,6 +215,7 @@ def anadir_libro(libros):
     codigo = f"L{numero + 1:03d}"
     libros.append(Libro(codigo, titulo, autor, int(anio), categoria))
     print("Libro", titulo, "añadido con el código", codigo)
+    escribir_log("ALTA LIBRO", f"{codigo} {titulo}")
 
 
 def anadir(libros, socios):
