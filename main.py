@@ -41,21 +41,21 @@ def cargar_socios():
 
 
 def guardar_datos(libros, socios):
-    fichero = open("libros.txt", "w", encoding="utf-8")
-    for libro in libros:
-        codigo_socio = libro.codigo_socio
-        if codigo_socio is None:
-            codigo_socio = ""
-        fichero.write(f"{libro.codigo};{libro.titulo};{libro.autor};{libro.anio};{libro.categoria};{codigo_socio}\n")
-    fichero.close()
+    with open("libros.txt", "w", encoding="utf-8", newline="") as fichero:
+        escritor = csv.writer(fichero, delimiter=";")
+        for libro in libros:
+            codigo_socio = libro.codigo_socio
+            if codigo_socio is None:
+                codigo_socio = ""
+            escritor.writerow([libro.codigo, libro.titulo, libro.autor, libro.anio, libro.categoria, codigo_socio])
 
-    fichero = open("socios.txt", "w", encoding="utf-8")
-    for socio in socios:
-        codigo_libro = socio.codigo_libro
-        if codigo_libro is None:
-            codigo_libro = ""
-        fichero.write(f"{socio.codigo};{socio.nombre};{socio.email};{codigo_libro}\n")
-    fichero.close()
+    with open("socios.txt", "w", encoding="utf-8", newline="") as fichero:
+        escritor = csv.writer(fichero, delimiter=";")
+        for socio in socios:
+            codigo_libro = socio.codigo_libro
+            if codigo_libro is None:
+                codigo_libro = ""
+            escritor.writerow([socio.codigo, socio.nombre, socio.email, codigo_libro])
     print("Datos guardados en libros.txt y socios.txt")
 
 
