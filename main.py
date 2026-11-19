@@ -2,6 +2,7 @@ from modelo.libro import Libro
 from modelo.socio import Socio
 from errores.prestamo_error import PrestamoError
 from datetime import datetime
+import csv
 
 
 def escribir_log(evento, detalles):
@@ -13,35 +14,29 @@ def escribir_log(evento, detalles):
 
 def cargar_libros():
     libros = []
-    fichero = open("libros.txt", "r", encoding="utf-8")
-    for linea in fichero:
-        linea = linea.strip()
-        if linea == "":
-            continue
-        partes = linea.split(";")
-        codigo_socio = partes[5]
-        if codigo_socio == "":
-            codigo_socio = None
-        libro = Libro(partes[0], partes[1], partes[2], int(partes[3]), partes[4], codigo_socio)
-        libros.append(libro)
-    fichero.close()
+    with open("libros.txt", "r", encoding="utf-8", newline="") as fichero:
+        lector = csv.reader(fichero, delimiter=";")
+        for fila in lector:
+            if len(fila) == 0:
+                continue
+            codigo, titulo, autor, anio, categoria, codigo_socio = fila
+            if codigo_socio == "":
+                codigo_socio = None
+            libros.append(Libro(codigo, titulo, autor, int(anio), categoria, codigo_socio))
     return libros
 
 
 def cargar_socios():
     socios = []
-    fichero = open("socios.txt", "r", encoding="utf-8")
-    for linea in fichero:
-        linea = linea.strip()
-        if linea == "":
-            continue
-        partes = linea.split(";")
-        codigo_libro = partes[3]
-        if codigo_libro == "":
-            codigo_libro = None
-        socio = Socio(partes[0], partes[1], partes[2], codigo_libro)
-        socios.append(socio)
-    fichero.close()
+    with open("socios.txt", "r", encoding="utf-8", newline="") as fichero:
+        lector = csv.reader(fichero, delimiter=";")
+        for fila in lector:
+            if len(fila) == 0:
+                continue
+            codigo, nombre, email, codigo_libro = fila
+            if codigo_libro == "":
+                codigo_libro = None
+            socios.append(Socio(codigo, nombre, email, codigo_libro))
     return socios
 
 
